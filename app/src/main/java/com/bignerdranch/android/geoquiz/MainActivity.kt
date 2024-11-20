@@ -4,22 +4,16 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
 
-//private const val TAG = "MainActivity"
+private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    private val questionBank = listOf(
-        Question(R.string.question_us, false),
-        Question(R.string.question_ocean, true),
-        Question(R.string.question_africa, false),
-        Question(R.string.question_asia, true)
-    )
-    private var currentIndex = 0
+    private val quizViewModel: QuizViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,39 +34,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
             updateQuestion()
         }
 
         binding.prevButton.setOnClickListener {
-            val temp = if (currentIndex - 1 < 0) currentIndex - 1 + questionBank.size else currentIndex - 1
-            currentIndex = temp % questionBank.size
+            quizViewModel.moveToPrev()
             updateQuestion()
         }
-
-        // challenge chapter 2.1
-        binding.questionTextView.setOnClickListener{
-            currentIndex = (currentIndex + 1) % questionBank.size
-            updateQuestion()
-        }
-//        updateQuestion()
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById()) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
     }
 
 
     private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
 
         setEnabledAnswerButtons(true)
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = questionBank[currentIndex].answer
+        val correctAnswer = quizViewModel.currentQuestionAnswer
 
         val messageResId = if (userAnswer == correctAnswer) {
             R.string.correct_toast
@@ -92,30 +73,30 @@ class MainActivity : AppCompatActivity() {
 
     // Logging functions
 
-//    override fun onStart() {
-//        super.onStart()
-//        Log.d(TAG, "onStart() called")
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        Log.d(TAG, "onResume() called")
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        Log.d(TAG, "onPause() called")
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        Log.d(TAG, "onStop() called")
-//    }
-//
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        Log.d(TAG, "onDestroy() called")
-//    }
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart() called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
+    }
 }
 
 
