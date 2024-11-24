@@ -1,16 +1,13 @@
 package com.bignerdranch.android.geoquiz
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bignerdranch.android.geoquiz.databinding.ActivityMainBinding
 
-private const val TAG = "MainActivity"
+//private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val quizViewModel: QuizViewModel by viewModels()
@@ -19,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        Log.d(TAG, "onCreate(Bundle?) called")
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
         setTitle(R.string.app_name)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,6 +38,9 @@ class MainActivity : AppCompatActivity() {
             quizViewModel.moveToPrev()
             updateQuestion()
         }
+
+        val questionTextResId = quizViewModel.currentQuestionText
+        binding.questionTextView.setText(questionTextResId)
     }
 
 
@@ -73,30 +72,30 @@ class MainActivity : AppCompatActivity() {
 
     // Logging functions
 
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart() called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume() called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause() called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop() called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy() called")
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        Log.d(TAG, "onStart() called")
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        Log.d(TAG, "onResume() called")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        Log.d(TAG, "onPause() called")
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        Log.d(TAG, "onStop() called")
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        Log.d(TAG, "onDestroy() called")
+//    }
 }
 
 
